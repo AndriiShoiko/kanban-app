@@ -74,6 +74,130 @@ class UserService {
 
     }
 
+    async login(email, password) {
+
+        if (!validator.isEmail(email)) {
+            throw new Error("Email isn't valid");
+        }
+
+        if (!password) {
+            throw new Error("Password don't be empty");
+        }
+
+        const session = await mongoose.startSession();
+
+        try {
+
+            session.startTransaction();
+
+            const findUser = await UserModel.findOne({ email }).session(session);
+            if (!findUser) {
+                throw new Error(`User with email ${email} not found`);
+            }
+
+            const isPassEquals = await bcrypt.compare(password, findUser.password);
+            if (!isPassEquals) {
+                throw new Error(`Password isn't correct.`);
+            }
+
+            const userDto = new UserDto(findUser);
+            const refreshToken = tokenService.generateRefreshToken({ ...userDto });
+            const accessToken = tokenService.generateAccessToken({ ...userDto });
+
+            let tokenData = await TokenModel.findOne({ user: userDto.id }).session(session);
+            if (tokenData) {
+                tokenData.refreshToken = refreshToken;
+            } else {
+                tokenData = new TokenModel({ user: userDto.id, refreshToken });
+            }
+
+            await tokenData.save({ session });
+
+            await session.commitTransaction();
+
+            return {
+                refreshToken,
+                accessToken,
+                user: userDto
+            }
+
+        } catch (error) {
+
+            await session.abortTransaction();
+            console.error(error.message);
+
+            throw new Error(error);
+
+        } finally {
+            await session.endSession();
+        }
+
+    }
+
+    async logout(refreshToken) {
+
+        await tokenService.removeRefreshToken(refreshToken);
+
+    }
+
+    async refresh(token) {
+
+        if (!token) {
+            throw new Error("Token isn't valid");
+        }
+
+        const userData = tokenService.validateRefreshToken(token);
+        if (!userData) {
+            throw new Error("Token isn't valid");
+        }
+
+        const findUser = await UserModel.findOne({ email: userData.email });
+        if (!findUser) {
+            throw new Error("Token isn't valid");
+        }
+
+        const userDto = new UserDto(findUser);
+        const refreshToken = tokenService.generateRefreshToken({ ...userDto });
+        const accessToken = tokenService.generateAccessToken({ ...userDto });
+
+        let tokenData = await TokenModel.findOne({ user: userDto.id });
+        if (tokenData) {
+            tokenData.refreshToken = refreshToken;
+        } else {
+            tokenData = new TokenModel({ user: userDto.id, refreshToken });
+        }
+        await tokenData.save();
+
+        return {
+            refreshToken,
+            accessToken,
+            user: userDto
+        }
+
+    }
+
+    async activate(activationLink) {
+
+        if (!activationLink) {
+            throw new Error("Activation link isn't valid");
+        }
+
+        const findUser = await UserModel.findOne({ activationLink });
+        if (!findUser) {
+            throw new Error("Activation link isn't valid");
+        }
+
+        findUser.isActivated = true;
+        await findUser.save();
+
+        const userDto = new UserDto(findUser);
+
+        return {
+            ...userDto
+        }
+
+    }
+
 }
 
 module.exports = new UserService();

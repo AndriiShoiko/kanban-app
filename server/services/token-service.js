@@ -27,8 +27,10 @@ class TokenService {
 
     async removeRefreshToken(refreshToken) {
 
-        const tokenData = await tokenModel.deleteOne({ refreshToken });
-        return tokenData;
+        if (refreshToken) {
+            const tokenData = await tokenModel.deleteOne({ refreshToken });
+            return tokenData;
+        }
 
     }
 
