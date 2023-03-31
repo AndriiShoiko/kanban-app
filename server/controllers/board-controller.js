@@ -5,7 +5,7 @@ class BoardController {
         try {
             res.json(["Board 1", "Board 2"]);
         } catch (error) {
-
+            next(error);
         }
 
     }

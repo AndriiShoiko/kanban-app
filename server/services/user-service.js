@@ -10,16 +10,18 @@ const makeUserRef = require("./utils");
 const UserDto = require("./dtos/userDto");
 const tokenService = require("./token-service");
 
+const ApiError = require("../exceptions/api-error");
+
 class UserService {
 
     async registration(email, password) {
 
         if (!validator.isEmail(email)) {
-            throw new Error("Email isn't valid");
+            throw ApiError.BadRequest("Email isn't valid");
         }
 
         if (!password) {
-            throw new Error("Password don't be empty");
+            throw ApiError.BadRequest("Password don't be empty");
         }
 
         const session = await mongoose.startSession();
@@ -34,7 +36,7 @@ class UserService {
 
             const candidate = await UserModel.findOne({ email }).session(session);
             if (candidate) {
-                throw new Error(`User with this email ${email} already exists`);
+                throw `User with this email ${email} already exists`;
             }
 
             const user = new UserModel({ email, password: hashPass, activationLink, userRef });
@@ -62,12 +64,9 @@ class UserService {
             }
 
         } catch (error) {
-
             await session.abortTransaction();
-            console.error(error.message);
-
-            throw new Error(error);
-
+            
+            throw ApiError.BadRequest(error);
         } finally {
             await session.endSession();
         }
@@ -77,11 +76,11 @@ class UserService {
     async login(email, password) {
 
         if (!validator.isEmail(email)) {
-            throw new Error("Email isn't valid");
+            throw ApiError.BadRequest("Email isn't valid");
         }
 
         if (!password) {
-            throw new Error("Password don't be empty");
+            throw ApiError.BadRequest("Password don't be empty");
         }
 
         const session = await mongoose.startSession();
@@ -92,12 +91,12 @@ class UserService {
 
             const findUser = await UserModel.findOne({ email }).session(session);
             if (!findUser) {
-                throw new Error(`User with email ${email} not found`);
+                throw `User with email ${email} not found`;
             }
 
             const isPassEquals = await bcrypt.compare(password, findUser.password);
             if (!isPassEquals) {
-                throw new Error(`Password isn't correct.`);
+                throw `Password isn't correct.`;
             }
 
             const userDto = new UserDto(findUser);
@@ -124,9 +123,8 @@ class UserService {
         } catch (error) {
 
             await session.abortTransaction();
-            console.error(error.message);
 
-            throw new Error(error);
+            throw ApiError.BadRequest(error);
 
         } finally {
             await session.endSession();
@@ -143,17 +141,17 @@ class UserService {
     async refresh(token) {
 
         if (!token) {
-            throw new Error("Token isn't valid");
+            throw ApiError.BadRequest("Token isn't valid");
         }
 
         const userData = tokenService.validateRefreshToken(token);
         if (!userData) {
-            throw new Error("Token isn't valid");
+            throw ApiError.BadRequest("Token isn't valid");
         }
 
         const findUser = await UserModel.findOne({ email: userData.email });
         if (!findUser) {
-            throw new Error("Token isn't valid");
+            throw ApiError.BadRequest("Token isn't valid");
         }
 
         const userDto = new UserDto(findUser);
@@ -179,12 +177,12 @@ class UserService {
     async activate(activationLink) {
 
         if (!activationLink) {
-            throw new Error("Activation link isn't valid");
+            throw ApiError.BadRequest("Activation link isn't valid");
         }
 
         const findUser = await UserModel.findOne({ activationLink });
         if (!findUser) {
-            throw new Error("Activation link isn't valid");
+            throw ApiError.BadRequest("Activation link isn't valid");
         }
 
         findUser.isActivated = true;

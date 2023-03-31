@@ -25,20 +25,33 @@ class TokenService {
 
     }
 
-    async removeRefreshToken(refreshToken) {
+    async removeRefreshToken(token) {
 
-        if (refreshToken) {
-            const tokenData = await tokenModel.deleteOne({ refreshToken });
+        if (token) {
+            const tokenData = await tokenModel.deleteOne({ token });
             return tokenData;
         }
 
     }
 
-    validateRefreshToken(refreshToken) {
+    validateRefreshToken(token) {
 
         try {
 
-            const userData = jwt.verify(refreshToken, process.env.REFRESH_TOKEN);
+            const userData = jwt.verify(token, process.env.REFRESH_TOKEN);
+            return userData;
+
+        } catch (error) {
+            return null;
+        }
+
+    }
+
+    validateAccessToken(token) {
+
+        try {
+
+            const userData = jwt.verify(token, process.env.ACCESS_TOKEN);
             return userData;
 
         } catch (error) {
