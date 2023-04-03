@@ -1,6 +1,7 @@
 
 /node_modules
 /build
+serverLog.txt
 
 .env
 .env.local

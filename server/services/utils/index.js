@@ -1,4 +1,4 @@
-function makeUserRef() {
+function makeRef() {
     
     let text = "";
     const possiblePart1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -15,4 +15,4 @@ function makeUserRef() {
     return text;
 }
 
-module.exports = makeUserRef;
+module.exports = makeRef;

@@ -6,7 +6,7 @@ const validator = require("validator");
 const UserModel = require("../models/user-model");
 const TokenModel = require("../models/token-model");
 
-const makeUserRef = require("./utils");
+const makeRef = require("./utils");
 const UserDto = require("./dtos/userDto");
 const tokenService = require("./token-service");
 
@@ -30,7 +30,7 @@ class UserService {
 
             const hashPass = await bcrypt.hash(password, 2);
             const activationLink = uuid.v4();
-            const userRef = makeUserRef();
+            const ref = makeRef();
 
             session.startTransaction();
 
@@ -39,7 +39,7 @@ class UserService {
                 throw `User with this email ${email} already exists`;
             }
 
-            const user = new UserModel({ email, password: hashPass, activationLink, userRef });
+            const user = new UserModel({ email, password: hashPass, activationLink, ref });
             await user.save({ session });
 
             const userDto = new UserDto(user);

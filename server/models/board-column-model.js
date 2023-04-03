@@ -1,16 +1,16 @@
 const { Schema, model } = require("mongoose");
 
-const boardSchema = new Schema(
+const boardColumnSchema = new Schema(
     {
         name: {
             type: String,
             required: true,
             trim: true,
         },
-        ref: {
-            type: String,
+        board: {
+            type: Schema.Types.ObjectId,
+            ref: "Board",
             required: true,
-            unique: true,
         },
         user: {
             type: Schema.Types.ObjectId,
@@ -20,4 +20,4 @@ const boardSchema = new Schema(
     },
 );
 
-module.exports = model("Board", boardSchema);
+module.exports = model("BoardColumn", boardColumnSchema);

@@ -28,7 +28,7 @@ const userSchema = new Schema(
         activationLink: {
             type: String,
         },
-        userRef: {
+        ref: {
             type: String,
             required: true,
             unique: true,
