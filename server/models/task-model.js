@@ -12,9 +12,9 @@ const TaskSchema = new Schema(
             required: false,
             trim: true,
         },
-        boardColumn: {
+        column: {
             type: Schema.Types.ObjectId,
-            ref: "BoardColumn",
+            ref: "Column",
             required: true,
         },
         ref: {

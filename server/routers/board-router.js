@@ -10,4 +10,7 @@ router.post("/", authMiddleware, boardController.addBoard);
 router.delete("/:ref", authMiddleware, boardController.deleteBoard);
 router.patch("/:ref", authMiddleware, boardController.patchBoard);
 
+router.get("/:ref/columns", authMiddleware, boardController.getColumnsForBoard);
+router.get("/:ref/columns/tasks", authMiddleware, boardController.getColumnsAndTasksForBoard);
+
 module.exports = router;

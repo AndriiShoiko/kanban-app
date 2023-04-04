@@ -6,9 +6,9 @@ module.exports = class boardDto {
 
     constructor(model) {
         this.name = model.name;
-        this.id = model._id;
+        this.id = model._id.toString();
         this.ref = model.ref;
-        this.user = model.user;
+        this.user = model.user.toString();
     }
 
     static getCollection(boardCollection = []) {

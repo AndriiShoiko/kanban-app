@@ -90,7 +90,43 @@ class BoardController {
             next(error);
         }
 
-    }       
+    } 
+    
+    async getColumnsForBoard(req, res, next) {
+
+        try {
+
+            const { user } = req;
+            const { ref } = req.params;
+
+            const data = await boardService.getColumnsForBoard(user, ref);
+
+            res.status(200).json({
+                ...data
+            });
+        } catch (error) {
+            next(error);
+        }
+
+    }    
+
+    async getColumnsAndTasksForBoard(req, res, next) {
+
+        try {
+
+            const { user } = req;
+            const { ref } = req.params;
+
+            const data = await boardService.getColumnsAndTasksForBoard(user, ref);
+
+            res.status(200).json({
+                ...data
+            });
+        } catch (error) {
+            next(error);
+        }
+
+    }    
 
 }
 

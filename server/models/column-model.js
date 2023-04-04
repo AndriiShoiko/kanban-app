@@ -7,6 +7,11 @@ const boardColumnSchema = new Schema(
             required: true,
             trim: true,
         },
+        ref: {
+            type: String,
+            required: true,
+            unique: true,
+        },
         board: {
             type: Schema.Types.ObjectId,
             ref: "Board",
@@ -20,4 +25,4 @@ const boardColumnSchema = new Schema(
     },
 );
 
-module.exports = model("BoardColumn", boardColumnSchema);
+module.exports = model("Column", boardColumnSchema);

@@ -1,8 +1,12 @@
-const mongoose = require("mongoose");
 const BoardModel = require("../models/board-model");
+const ColumnModel = require("../models/column-model");
+const TaskModel = require("../models/task-model");
+
 const BoardDto = require("./dtos/boardDto");
+const ColumnDto = require("./dtos/columnDto");
 const ApiError = require("../exceptions/api-error");
 const makeRef = require("./utils/index");
+const TaskDto = require("./dtos/taskDto");
 
 class BoardService {
 
@@ -113,6 +117,80 @@ class BoardService {
             data: { ...boardDto }
         }
 
+    }
+
+    async getColumnsForBoard(user, ref) {
+
+        if (!user) {
+            throw ApiError.UnauthorizedError();
+        }
+
+        if (!ref) {
+            throw ApiError.BadRequest("Boards ref can't be empty");
+        }
+
+        const board = await BoardModel.findOne({ user: user.id, ref });
+        if (!board) {
+            return { data: {} }
+        }
+
+        let boardDto = new BoardDto(board);
+        const columns = await ColumnModel.find({ user: user.id, board: boardDto.id });
+        if (!columns) {
+            boardDto.columns = [];
+            return {
+                data: boardDto
+            }
+        }
+
+        boardDto.columns = ColumnDto.getCollection(columns);
+
+        return {
+            data: boardDto
+        }
+    }
+
+    async getColumnsAndTasksForBoard(user, ref) {
+
+        if (!user) {
+            throw ApiError.UnauthorizedError();
+        }
+
+        if (!ref) {
+            throw ApiError.BadRequest("Boards ref can't be empty");
+        }
+
+        const board = await BoardModel.findOne({ user: user.id, ref });
+        if (!board) {
+            return { data: {} }
+        }
+        let boardDto = new BoardDto(board);
+
+
+        const columns = await ColumnModel.find({ user: user.id, board: boardDto.id });
+        const tasks = await TaskModel.find({ user: user.id });
+
+        if (!columns) {
+            boardDto.columns = [];
+            return {
+                data: boardDto
+            }
+        }
+
+        const columnsDto = ColumnDto.getCollection(columns);
+        const tasksDto = TaskDto.getCollection(tasks);
+
+        const columnsAndTasksDto = columnsDto.map((column) => {
+            const findTasks = tasksDto.filter(task => task.column === column.id);
+            column.tasks = findTasks;
+            return column;
+        });
+
+        boardDto.columns = columnsAndTasksDto;
+
+        return {
+            data: boardDto
+        }
     }
 
 }

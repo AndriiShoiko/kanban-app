@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 
 const authRouter = require("./routers/auth-router");
 const boardRouter = require("./routers/board-router");
+const columnRouter = require("./routers/column-router");
+const taskRouter = require("./routers/task-router");
+
 const errorMiddleware = require("./middlewares/error-middleware");
 
 const app = express();
@@ -14,8 +17,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+
 app.use("/api/auth", authRouter);
 app.use("/api/boards", boardRouter);
+app.use("/api/columns", columnRouter);
+app.use("/api/tasks", taskRouter);
+
 app.use(errorMiddleware);
 
 const start = async () => {
