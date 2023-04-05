@@ -18,10 +18,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
-app.use("/api/auth", authRouter);
-app.use("/api/boards", boardRouter);
-app.use("/api/columns", columnRouter);
-app.use("/api/tasks", taskRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/boards", boardRouter);
+app.use("/api/v1/columns", columnRouter);
+app.use("/api/v1/tasks", taskRouter);
 
 app.use(errorMiddleware);
 
