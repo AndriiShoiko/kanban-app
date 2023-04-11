@@ -15,12 +15,12 @@ import { MainLogo } from "../../ui/logos/MainLogo";
 import { ButtonPrimaryL } from "../../ui/buttons/ButtonPrimaryL";
 
 import { Box } from "@mui/system";
-import { StyledAppBar } from "./StyledAppBar";
+import { StyledAppBar } from "./StylesAndComponents";
 
 import { useDarkMode } from "../../hooks/useDarkMode";
 import { useDrawerIsOpen } from "../../hooks/useDrawerIsOpen";
 
-import { captionStyle, dividerStyle, toolbarStyle } from "./styles";
+import { captionStyle, dividerStyle, toolbarStyle } from "./StylesAndComponents";
 
 export const Header = (props) => {
   const drawerIsOpen = useDrawerIsOpen();

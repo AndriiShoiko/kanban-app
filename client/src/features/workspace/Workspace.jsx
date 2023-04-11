@@ -8,7 +8,7 @@ import { DrawerHeader } from "../drawer/DrawerHeader";
 import { useDrawerIsOpen } from "../../hooks/useDrawerIsOpen";
 
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { StyledMain } from "./StyledMain";
+import { StyledMain } from "./StylesAndComponents";
 import { StyledOpenDrawer } from "../../ui/buttons/OpenDrawer";
 
 export const Workspace = (props) => {

@@ -3,10 +3,10 @@ import React from "react";
 import { useDarkMode } from "../../hooks/useDarkMode";
 
 import { useDrawerIsOpen } from "../../hooks/useDrawerIsOpen";
-import { BoardsList } from "../../ui/lists/BoardsList";
+import { BoardsList } from "./BoardsList";
 import { ThemeSwitcher } from "../../ui/buttons/ThemeSwitcher";
 import { HideSidebar } from "../../ui/buttons/HideSidebar";
-import { StyledDrawer } from "./styledDrawer";
+import { StyledDrawer } from "./StylesAndComponents";
 import { DrawerHeader } from "./DrawerHeader";
 
 export const Drawer = (props) => {
