@@ -1,13 +1,16 @@
 import React from "react";
-import { Typography } from "@mui/material";
+
 import { Layout } from "src/features/layout/Layout";
 import { Workspace } from "./workspace/Workspace";
+import { BoardTable } from "./board/BoardTable";
+import { EmptyBoard } from "./board/EmptyBoard";
 
 export const App = () => {
   return (
     <Layout>
       <Workspace>
-        <Typography variant="h1">Hello</Typography>
+        <BoardTable />
+        {/* <EmptyBoard /> */}
       </Workspace>
     </Layout>
   );
