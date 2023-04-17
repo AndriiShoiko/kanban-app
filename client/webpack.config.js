@@ -13,6 +13,7 @@ module.exports = {
   output: {
     filename: "[name].[hash].js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
     clean: true,
   },
   resolve: {
@@ -24,6 +25,8 @@ module.exports = {
   },
   devServer: {
     static: "./dist",
+    historyApiFallback: true,
+    open: true,
   },
   module: {
     rules: [

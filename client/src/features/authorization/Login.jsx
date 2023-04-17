@@ -1,15 +1,16 @@
-import { Box, FormControl, Stack, Typography, Link } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Box, FormControl, Stack, Typography } from "@mui/material";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { ButtonPrimaryS } from "../../ui/buttons/ButtonPrimaryS";
 import { FormHelperTextPrimary } from "../../ui/fields/FormHelperTextPrimary";
 import { LinkPrimary } from "../../ui/fields/LinkPrimary";
 import { TextFieldPrimary } from "../../ui/fields/TextFieldPrimary";
-import { MainLogo } from "../../ui/Logos/MainLogo";
+import { MainLogo } from "../../ui/logos/MainLogo";
 import { Layout } from "../layout/Layout";
 import { emailPattern } from "../../utils/validate/patterns";
-import { login } from "../../api/authorization";
+/* import { login } from "../../api/authorization"; */
 import { formControlStyles } from "./StylesAndComponents";
 
 export const Login = () => {
@@ -22,13 +23,13 @@ export const Login = () => {
   } = useForm({ mode: "onBlur" });
 
   const onSubmit = async (data) => {
-    const res_data = await login(data.email, data.password);
+    /*     const res_data = await login(data.email, data.password);
 
     if (res_data.success) {
-        navigate("/");
+      navigate("/");
     } else {
       console.error(res_data);
-    }
+    } */
   };
 
   return (
@@ -101,11 +102,15 @@ export const Login = () => {
               justifyContent="space-between"
               marginTop={3}
             >
-              <Link href="/forgot-password" legacyBehavior passHref>
-                <LinkPrimary variant="h4">forgot password</LinkPrimary>
+              <Link to="/forgot-password">
+                <LinkPrimary variant="h4" component="span">
+                  forgot password
+                </LinkPrimary>
               </Link>
-              <Link href="/registration" legacyBehavior passHref>
-                <LinkPrimary variant="h4">Sign Up</LinkPrimary>
+              <Link to="/registration">
+                <LinkPrimary variant="h4" component="span">
+                  Sign Up
+                </LinkPrimary>
               </Link>
             </Stack>
           </Box>
