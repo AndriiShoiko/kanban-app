@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Login } from "../features/authorization/Login";
+import { Login } from "../../features/authorization/Login";
 
 export const LoginPage = () => {
   return <Login />;
