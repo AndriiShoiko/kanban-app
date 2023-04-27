@@ -16,6 +16,7 @@ import { DeleteTaskPage } from "./pages/tasks/DeleteTaskPage";
 import { LogoutPage } from "./pages/auth/LogoutPage";
 import { ForgotPage } from "./pages/auth/ForgotPage";
 import { AuthorizationPage } from "./pages/auth/AuthorizationPage";
+import { CheckAuthLayout } from "./hoc/CheckAuthLayout";
 
 export const App = () => {
   return (
@@ -23,7 +24,14 @@ export const App = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<StartEndpoint />} />
-          <Route path="/boards" element={<BoardsPage />} />
+          <Route
+            path="/boards"
+            element={
+              <CheckAuthLayout>
+                <BoardsPage />
+              </CheckAuthLayout>
+            }
+          />
           <Route path="/boards/:boardRefId" element={<BoardPage />} />
           <Route path="/boards/new" element={<NewBoardPage />} />
           <Route path="/boards/:boardRefId/edit" element={<EditBoardPage />} />

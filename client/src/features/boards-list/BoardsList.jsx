@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
+
 import { Typography, Link } from "@mui/material";
 
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomizeOutlined";
 
-import {TabStyled, TabsStyled, headerStyle} from "./StylesAndComponents";
+import { TabStyled, TabsStyled, headerStyle } from "./StylesAndComponents";
+
+import { getBoards, getBoardsSelector } from "../boards-list/boards-list-slice";
 
 const listBoard = ["Board 1", "Board 2", "Board 3"];
+
+const handleChange = (_, newValue) => {
+  setValue(newValue);
+};
 
 export const BoardsList = () => {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    const promise = dispatch(getBoards());
+    return () => {
+      promise.abort();
+    };
+  }, [dispatch]);
 
   return (
     <>

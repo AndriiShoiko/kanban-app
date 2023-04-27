@@ -1,4 +1,7 @@
 import React from "react";
+
+import { useDispatch, useSelector } from "react-redux";
+
 import { Box, FormControl, Stack, Typography } from "@mui/material";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -10,11 +13,12 @@ import { TextFieldPrimary } from "../../ui/fields/TextFieldPrimary";
 import { MainLogo } from "../../ui/logos/MainLogo";
 import { Layout } from "../layout/Layout";
 import { emailPattern } from "../../utils/validate/patterns";
-/* import { login } from "../../api/authorization"; */
 import { formControlStyles } from "./StylesAndComponents";
+import { login, userIsAuthSelector } from "./auth-user-slice";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -23,13 +27,9 @@ export const Login = () => {
   } = useForm({ mode: "onBlur" });
 
   const onSubmit = async (data) => {
-    /*     const res_data = await login(data.email, data.password);
-
-    if (res_data.success) {
-      navigate("/");
-    } else {
-      console.error(res_data);
-    } */
+    const params = { email: data.email, password: data.password };
+    dispatch(login(params));
+    navigate("/");
   };
 
   return (
