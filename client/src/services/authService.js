@@ -50,7 +50,6 @@ export class AuthService {
 
     const res = await $api.get(`/auth/isAuth/${accessToken}`);
     const data = await res.data;
-    console.log(data);
 
     return data;
   }

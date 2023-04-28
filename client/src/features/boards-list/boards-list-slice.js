@@ -23,7 +23,7 @@ const authUserSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getBoards.fulfilled, (state, action) => {
-        state.entities = action.payload || [];
+        state.entities = action.payload?.data || [];
       })
       .addMatcher(
         (action) => action.type.endsWith("/pending"),
@@ -51,7 +51,7 @@ const authUserSlice = createSlice({
 });
 
 export const getBoardsSelector = (state) => {
-  return state.entities;
+  return state.boards;
 };
 
 export const boardsReducer = authUserSlice.reducer;

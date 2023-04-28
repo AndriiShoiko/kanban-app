@@ -1,13 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = Boolean(localStorage.getItem("drawerIsOpen"));
+
 const drawerIsOpenSlice = createSlice({
   name: "@@drawerIsOpen",
-  initialState: false,
+  initialState: initialState,
   reducers: {
     toggleIsOpen: (state) => {
       if (state === false) {
+        localStorage.setItem("drawerIsOpen", true);
         return true;
       } else {
+        localStorage.setItem("drawerIsOpen", false);
         return false;
       }
     },

@@ -10,6 +10,7 @@ import { LinkPrimary } from "../../ui/fields/LinkPrimary";
 import { MainLogo } from "../../ui/logos/MainLogo";
 import { Layout } from "../layout/Layout";
 import { STATUS_LOADING } from "./auth-user-slice";
+import LoadingSpiner from "../loading/LoadingSpiner";
 
 export const IsntAuthorized = () => {
   const authUser = useSelector((state) => state.authUser);
@@ -19,15 +20,11 @@ export const IsntAuthorized = () => {
       <Layout>
         <Box
           sx={{
-            display: "flex",
             width: "100wh",
             height: "100vh",
-            backgroundColor: "background.default",
-            alignItems: "center",
-            justifyContent: "center",
           }}
         >
-          <CircularProgress color="secondary" />
+          <LoadingSpiner />
         </Box>
       </Layout>
     );

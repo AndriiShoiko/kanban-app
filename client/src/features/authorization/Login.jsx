@@ -14,7 +14,7 @@ import { MainLogo } from "../../ui/logos/MainLogo";
 import { Layout } from "../layout/Layout";
 import { emailPattern } from "../../utils/validate/patterns";
 import { formControlStyles } from "./StylesAndComponents";
-import { login, userIsAuthSelector } from "./auth-user-slice";
+import { login } from "./auth-user-slice";
 
 export const Login = () => {
   const navigate = useNavigate();

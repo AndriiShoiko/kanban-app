@@ -14,10 +14,6 @@ class UserController {
         maxAge: ms(process.env.REFRESH_TOKEN_VALID_TIME),
         httpOnly: true,
       });
-/*       res.cookie("accessToken", data.accessToken, {
-        maxAge: ms(process.env.ACCESS_TOKEN_VALID_TIME),
-        httpOnly: true,
-      }); */
 
       res.status(201).json({
         ...data,
@@ -37,10 +33,6 @@ class UserController {
         maxAge: ms(process.env.REFRESH_TOKEN_VALID_TIME),
         httpOnly: true,
       });
-/*       res.cookie("accessToken", data.accessToken, {
-        maxAge: ms(process.env.ACCESS_TOKEN_VALID_TIME),
-        httpOnly: true,
-      }); */
 
       res.status(200).json({
         ...data,
@@ -57,7 +49,6 @@ class UserController {
       await userService.logout(refreshToken);
 
       res.clearCookie("refreshToken");
-      /* res.clearCookie("accessToken"); */
 
       res.status(200).json({});
     } catch (error) {
@@ -89,10 +80,6 @@ class UserController {
         maxAge: ms(process.env.REFRESH_TOKEN_VALID_TIME),
         httpOnly: true,
       });
-/*       res.cookie("accessToken", data.accessToken, {
-        maxAge: ms(process.env.ACCESS_TOKEN_VALID_TIME),
-        httpOnly: true,
-      }); */
 
       res.status(200).json({
         ...data,

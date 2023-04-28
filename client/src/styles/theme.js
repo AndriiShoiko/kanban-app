@@ -10,6 +10,7 @@ const red = "#EA5555";
 const redHover = "#FF9898";
 
 export const theme = {
+
   palette: {
     mode: "dark",
     common: {

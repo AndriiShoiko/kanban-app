@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Typography, Link } from "@mui/material";
 
@@ -8,16 +8,21 @@ import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomi
 
 import { TabStyled, TabsStyled, headerStyle } from "./StylesAndComponents";
 
-import { getBoards, getBoardsSelector } from "../boards-list/boards-list-slice";
-
-const listBoard = ["Board 1", "Board 2", "Board 3"];
-
-const handleChange = (_, newValue) => {
-  setValue(newValue);
-};
+import {
+  STATUS_LOADING,
+  getBoards,
+  getBoardsSelector,
+} from "../boards-list/boards-list-slice";
+import LoadingSpiner from "../loading/LoadingSpiner";
 
 export const BoardsList = () => {
   const [value, setValue] = React.useState(0);
+  const handleChange = React.useCallback(
+    (_, newValue) => {
+      setValue(newValue);
+    },
+    [setValue]
+  );
 
   const dispatch = useDispatch();
 
@@ -27,6 +32,14 @@ export const BoardsList = () => {
       promise.abort();
     };
   }, [dispatch]);
+
+  const boardsState = useSelector((state) => getBoardsSelector(state));
+
+  if (boardsState.loading === STATUS_LOADING) {
+    return <LoadingSpiner />;
+  }
+
+  const listBoard = boardsState.entities;
 
   return (
     <>
@@ -43,7 +56,7 @@ export const BoardsList = () => {
         {listBoard.map((element, index) => (
           <TabStyled
             icon={<DashboardOutlinedIcon sx={{ fontSize: 16 }} />}
-            label={element}
+            label={element.name}
             iconPosition="start"
             wrapped
             key={index}
