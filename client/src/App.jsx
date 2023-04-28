@@ -32,7 +32,14 @@ export const App = () => {
               </CheckAuthLayout>
             }
           />
-          <Route path="/boards/:boardRefId" element={<BoardPage />} />
+          <Route
+            path="/boards/:boardRefId"
+            element={
+              <CheckAuthLayout>
+                <BoardPage />
+              </CheckAuthLayout>
+            }
+          />
           <Route path="/boards/new" element={<NewBoardPage />} />
           <Route path="/boards/:boardRefId/edit" element={<EditBoardPage />} />
           <Route

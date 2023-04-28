@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Typography, Link } from "@mui/material";
 
@@ -8,38 +9,31 @@ import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomi
 
 import { TabStyled, TabsStyled, headerStyle } from "./StylesAndComponents";
 
-import {
-  STATUS_LOADING,
-  getBoards,
-  getBoardsSelector,
-} from "../boards-list/boards-list-slice";
-import LoadingSpiner from "../loading/LoadingSpiner";
+import { getBoards, getBoardsSelector } from "../boards-list/boards-list-slice";
 
 export const BoardsList = () => {
-  const [value, setValue] = React.useState(0);
-  const handleChange = React.useCallback(
-    (_, newValue) => {
-      setValue(newValue);
-    },
-    [setValue]
-  );
-
+  const { boardRefId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    const promise = dispatch(getBoards());
+    const promiseBoards = dispatch(getBoards());
     return () => {
-      promise.abort();
+      promiseBoards.abort();
     };
-  }, [dispatch]);
+  }, [dispatch, boardRefId]);
 
   const boardsState = useSelector((state) => getBoardsSelector(state));
 
-  if (boardsState.loading === STATUS_LOADING) {
-    return <LoadingSpiner />;
-  }
-
   const listBoard = boardsState.entities;
+
+  const searchIndex = listBoard.findIndex(
+    (element) => element.ref === boardRefId
+  );
+
+  if (!listBoard) {
+    return <></>;
+  }
 
   return (
     <>
@@ -49,17 +43,17 @@ export const BoardsList = () => {
       <TabsStyled
         orientation="vertical"
         variant="scrollable"
-        value={value}
-        onChange={handleChange}
+        value={Math.max(searchIndex, 0)}
         component={Link}
       >
-        {listBoard.map((element, index) => (
+        {listBoard.map((element) => (
           <TabStyled
             icon={<DashboardOutlinedIcon sx={{ fontSize: 16 }} />}
             label={element.name}
             iconPosition="start"
             wrapped
-            key={index}
+            key={element.id}
+            onClick={() => navigate(`/boards/${element.ref}`)}
           />
         ))}
 

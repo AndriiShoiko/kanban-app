@@ -3,7 +3,7 @@ import React from "react";
 import { Stack, Typography } from "@mui/material";
 import CircleIcon from "@mui/icons-material/Circle";
 
-export const HeaderColumn = (props) => {
+export const HeaderColumn = ({ count, name }) => {
   return (
     <Stack
       sx={{ minHeight: "20px", minWidth: "280px" }}
@@ -12,7 +12,9 @@ export const HeaderColumn = (props) => {
       alignItems="center"
     >
       <CircleIcon color="success" fontSize="small" />
-      <Typography variant="h4">TODO (3)</Typography>
+      <Typography variant="h4">
+        {name} ({count})
+      </Typography>
     </Stack>
   );
 };
