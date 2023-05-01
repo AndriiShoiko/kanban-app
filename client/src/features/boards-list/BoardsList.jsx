@@ -10,11 +10,16 @@ import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomi
 import { TabStyled, TabsStyled, headerStyle } from "./StylesAndComponents";
 
 import { getBoards, getBoardsSelector } from "../boards-list/boards-list-slice";
+import { NewBoard } from "./NewBoard";
 
 export const BoardsList = () => {
   const { boardRefId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [openBoard, setOpenBoard] = React.useState(false);
+  const handleOpen = () => setOpenBoard(true);
+  const handleClose = () => setOpenBoard(false);
 
   React.useEffect(() => {
     const promiseBoards = dispatch(getBoards());
@@ -37,6 +42,7 @@ export const BoardsList = () => {
 
   return (
     <>
+      <NewBoard open={openBoard} onClose={handleClose} />
       <Typography variant="h4" sx={headerStyle}>
         ALL BOARDS {listBoard.length}
       </Typography>
@@ -63,6 +69,7 @@ export const BoardsList = () => {
           iconPosition="start"
           wrapped
           newBoard
+          onClick={() => handleOpen()}
         />
       </TabsStyled>
     </>

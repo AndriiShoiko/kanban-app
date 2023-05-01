@@ -51,3 +51,11 @@ export const headerStyle = (theme) => ({
     paddingLeft: theme.spacing(3),
   },
 });
+
+export const formControlStyles = (theme) => ({
+  marginBottom: theme.spacing(3),
+});
+
+export const formControlStylesList = (theme) => ({
+  marginBottom: theme.spacing(1.5),
+});

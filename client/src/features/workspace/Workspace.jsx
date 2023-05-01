@@ -15,13 +15,12 @@ import { StyledOpenDrawer } from "../../ui/buttons/OpenDrawer";
 import { toggleIsOpen } from "../drawer/drawer-is-open-slice";
 
 export const Workspace = (props) => {
-  
   const dispatch = useDispatch();
   const isOpen = useDrawerIsOpen();
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", height: "100%" }}>
         <Header />
         <Drawer />
         <StyledMain component="main" open={isOpen}>

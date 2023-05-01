@@ -40,8 +40,23 @@ export const App = () => {
               </CheckAuthLayout>
             }
           />
-          <Route path="/boards/new" element={<NewBoardPage />} />
-          <Route path="/boards/:boardRefId/edit" element={<EditBoardPage />} />
+          <Route
+            path="/boards/new"
+            element={
+              <CheckAuthLayout>
+                <NewBoardPage />
+              </CheckAuthLayout>
+            }
+          />
+
+          <Route
+            path="/boards/:boardRefId/edit"
+            element={
+              <CheckAuthLayout>
+                <EditBoardPage />
+              </CheckAuthLayout>
+            }
+          />
           <Route
             path="/boards/:boardRefId/delete"
             element={<DeleteBoardPage />}
